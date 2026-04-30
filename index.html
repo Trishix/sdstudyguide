@@ -1,0 +1,1973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDSE Study Guide — Newton School of Technology</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600;7..72,700&family=Source+Sans+3:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #faf8f5;
+    --paper: #fffefb;
+    --surface: #f3f1eb;
+    --border: #e5e0d5;
+    --accent: #8b4513;
+    --accent2: #2d5a27;
+    --text: #1a1a1a;
+    --text-muted: #555;
+    --text-dim: #777;
+    --code-bg: #2d2d2d;
+    --text-light: #faf8f5;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+body {
+    font-family: 'Literata', Georgia, serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 17px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--paper);
+    border-bottom: 2px solid var(--border);
+    padding: 56px 40px 48px;
+    text-align: center;
+    position: relative;
+  }
+  header::before {
+    display: none;
+  }
+  header .label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  header h1 {
+    font-family: 'Literata', Georgia, serif;
+    font-size: clamp(30px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+  header p {
+    color: var(--text-muted);
+    font-size: 17px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0b0e14 0%, #111b30 50%, #0b0e14 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0,212,255,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  header .label {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    opacity: .9;
+  }
+  header h1 {
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #e2e8f0 30%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 14px;
+  }
+  header p {
+    color: var(--text-dim);
+    font-size: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; min-height: 100vh; }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 20px 0;
+  }
+  #sidebar::-webkit-scrollbar { width: 5px; }
+  #sidebar::-webkit-scrollbar-track { background: transparent; }
+  #sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .sidebar-search {
+    padding: 0 14px 14px;
+  }
+  .sidebar-search input {
+    width: 100%;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    padding: 8px 12px;
+    outline: none;
+  }
+  .sidebar-search input:focus { border-color: var(--accent); }
+  .sidebar-search input::placeholder { color: var(--text-dim); }
+
+  .nav-section-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 14px 14px 6px;
+  }
+  .nav-chapter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-muted);
+    transition: all .2s;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+  }
+  .nav-chapter:hover, .nav-chapter.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    background: rgba(139,69,19,.06);
+  }
+  .nav-chapter .num {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .nav-sub {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px 5px 30px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color .2s;
+    border-left: 3px solid transparent;
+  }
+  .nav-sub:hover { color: var(--text-muted); }
+  .nav-sub::before { content: '·'; font-size: 16px; line-height: 0; }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    flex: 1;
+    padding: 40px 48px 80px;
+    max-width: 880px;
+    min-width: 0;
+  }
+
+  /* ── CHAPTER ── */
+  .chapter {
+    margin-bottom: 72px;
+    scroll-margin-top: 28px;
+  }
+  .chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--border);
+  }
+  .chapter-num {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--accent);
+    color: var(--text-light);
+    padding: 4px 10px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+  }
+  .chapter-title {
+    font-family: 'Literata', Georgia, serif;
+    font-size: clamp(22px, 2.5vw, 30px);
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* ── SECTION ── */
+  .section {
+    margin-bottom: 44px;
+    scroll-margin-top: 28px;
+  }
+  .section-title {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 3px;
+    height: 18px;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* ── TOPIC CARD ── */
+  .topic {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .topic:hover { border-color: rgba(139,69,19,.3); }
+  .topic-title {
+    font-family: 'Literata', Georgia, serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .topic-title .badge {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .badge-core { background: rgba(139,69,19,.1); color: var(--accent); border: 1px solid rgba(139,69,19,.25); }
+  .badge-pattern { background: rgba(45,90,39,.1); color: var(--accent2); border: 1px solid rgba(45,90,39,.25); }
+  .badge-principle { background: rgba(180,83,9,.1); color: #a45309; border: 1px solid rgba(180,83,9,.25); }
+  .badge-diagram { background: rgba(45,90,39,.1); color: var(--accent2); border: 1px solid rgba(45,90,39,.25); }
+  .badge-test { background: rgba(180,83,9,.1); color: #a45309; border: 1px solid rgba(180,83,9,.25); }
+
+  p { color: var(--text-muted); margin-bottom: 12px; font-size: 16px; }
+  p:last-child { margin-bottom: 0; }
+
+  strong { color: var(--text); font-weight: 600; }
+
+  /* ── DEFINITION BOX ── */
+  .def {
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+  .def strong { color: var(--accent); font-style: normal; }
+
+  /* ── CODE BLOCK ── */
+  .code-wrap {
+    background: var(--code-bg);
+    border: 1px solid #444;
+    border-radius: 6px;
+    margin: 16px 0;
+    overflow: hidden;
+  }
+  .code-label {
+    font-family: 'Source Sans 3', monospace;
+    font-size: 10px;
+    color: #999;
+    background: #252525;
+    padding: 6px 14px;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #333;
+  }
+  pre {
+    font-family: 'Source Code Pro', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    padding: 16px;
+    overflow-x: auto;
+    color: #d4d4d4;
+  }
+  .kw { color: #569cd6; }
+  .cl { color: #4ec9b0; }
+  .fn { color: #dcdcaa; }
+  .str { color: #ce9178; }
+  .cm { color: #6a9955; font-style: italic; }
+  .num { color: #b5cea8; }
+
+  /* ── LIST ── */
+  ul.points {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0;
+  }
+  ul.points li {
+    color: var(--text-muted);
+    padding: 5px 0 5px 20px;
+    position: relative;
+    font-size: 15px;
+  }
+  ul.points li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  ul.points li strong { color: var(--text); }
+
+  /* ── COMPARISON TABLE ── */
+  .table-wrap { overflow-x: auto; margin: 16px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  th {
+    background: var(--surface);
+    color: var(--accent);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+  }
+  td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: rgba(0,0,0,.02); }
+  td strong { color: var(--text); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-left: 3px solid;
+  }
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .callout-body { color: var(--text-muted); font-size: 14px; }
+  .callout-body strong { color: var(--text); display: block; margin-bottom: 4px; }
+  .callout.tip { background: rgba(45,90,39,.08); border-color: var(--accent2); }
+  .callout.warn { background: rgba(180,83,9,.08); border-color: #a45309; }
+  .callout.info { background: rgba(139,69,19,.06); border-color: var(--accent); }
+  .callout.danger { background: rgba(180,83,9,.08); border-color: #a45309; }
+
+  /* ── GRID ── */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  @media(max-width:700px){ .grid2 { grid-template-columns: 1fr; } }
+
+  .mini-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px;
+  }
+  .mini-card h4 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; font-family: 'Literata', serif; }
+  .mini-card p { font-size: 14px; }
+
+  /* ── PATTERN DIAGRAM ── */
+  .pattern-box {
+    background: var(--code-bg);
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 18px;
+    margin: 16px 0;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 13px;
+    color: #aaa;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .pattern-box .hl { color: #569cd6; }
+  .pattern-box .hl2 { color: #4ec9b0; }
+  .pattern-box .hl3 { color: #d7ba7d; }
+
+  /* ── TOC PROGRESS ── */
+  .progress-ring {
+    width: 44px; height: 44px;
+    position: fixed;
+    bottom: 20px; right: 20px;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    transition: transform .2s;
+    text-decoration: none;
+  }
+  .progress-ring:hover { transform: scale(1.08); }
+
+  /* ── TAGS ── */
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .tag {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+
+  /* ── UML DIAGRAM ── */
+  .uml-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 18px;
+    margin: 16px 0;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: pre;
+    overflow-x: auto;
+    line-height: 1.6;
+  }
+
+  /* ── PILL GROUP ── */
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .pill {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+  }
+  .pill.a { border-color: rgba(139,69,19,.4); color: var(--accent); background: rgba(139,69,19,.08); }
+  .pill.b { border-color: rgba(45,90,39,.4); color: var(--accent2); background: rgba(45,90,39,.08); }
+  .pill.c { border-color: rgba(180,83,9,.4); color: #a45309; background: rgba(180,83,9,.08); }
+  .pill.d { border-color: rgba(45,90,39,.4); color: var(--accent2); background: rgba(45,90,39,.08); }
+  .pill.e { border-color: rgba(180,83,9,.4); color: #a45309; background: rgba(180,83,9,.08); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* ── MOBILE NAV TOGGLE ── */
+  .mobile-nav-toggle {
+    display: none;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 200;
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  }
+
+  .mobile-sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 150;
+  }
+
+  @media(max-width:900px){
+    .mobile-nav-toggle { display: block; }
+    .mobile-sidebar-overlay { display: block; opacity: 0; pointer-events: none; transition: opacity .3s; }
+    .mobile-sidebar-overlay.open { opacity: 1; pointer-events: auto; }
+
+    #sidebar {
+      position: fixed;
+      left: -280px;
+      top: 0;
+      height: 100vh;
+      z-index: 180;
+      transition: left .3s ease;
+    }
+    #sidebar.open { left: 0; }
+
+    main { padding: 28px 16px 60px; }
+
+    header { padding: 48px 20px 36px; }
+    header h1 { font-size: 26px; }
+    header p { font-size: 15px; }
+
+    .chapter-title { font-size: 20px; }
+    .section-title { font-size: 16px; }
+
+    .topic { padding: 18px 14px; }
+    .topic-title { font-size: 15px; flex-wrap: wrap; }
+
+    .grid2 { grid-template-columns: 1fr; }
+
+    .table-wrap { margin: 12px -14px; border-radius: 0; }
+    table { font-size: 13px; }
+    th, td { padding: 8px 10px; }
+
+    .code-wrap, .pattern-box, .uml-box {
+      margin: 12px -14px;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+    }
+
+    pre { font-size: 12px; padding: 14px; }
+
+    .mini-card { padding: 14px; }
+
+    .progress-ring { width: 40px; height: 40px; bottom: 16px; right: 16px; font-size: 9px; }
+  }
+
+  @media(max-width:500px){
+    body { font-size: 15px; }
+
+    header h1 { font-size: 24px; }
+
+    .chapter-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .chapter-num { font-size: 10px; }
+
+    .topic-title .badge { font-size: 8px; padding: 2px 6px; }
+
+    .callout { padding: 12px 14px; flex-direction: column; gap: 8px; }
+    .callout-icon { font-size: 14px; }
+
+    .pills, .tags { gap: 6px; }
+    .pill, .tag { font-size: 11px; padding: 3px 8px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="mobile-nav-toggle" onclick="toggleSidebar()">☰ Menu</button>
+<div class="mobile-sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<div class="layout">
+
+<!-- ══ SIDEBAR ══ -->
+<nav id="sidebar">
+  <div class="sidebar-search">
+    <input type="text" id="search" placeholder="Search topics…" oninput="filterNav(this.value)">
+  </div>
+  <div id="nav-content">
+    <div class="nav-section-label">Chapters</div>
+
+    <a class="nav-chapter" href="#ch1"><span class="num">01</span> Software Engineering</a>
+    <a class="nav-sub" href="#quality-attrs">Quality Attributes</a>
+    <a class="nav-sub" href="#sdlc-overview">SDLC Overview</a>
+
+    <a class="nav-chapter" href="#ch2"><span class="num">02</span> OOP Core Concepts</a>
+    <a class="nav-sub" href="#classes-objects">Classes &amp; Objects</a>
+    <a class="nav-sub" href="#constructors">Constructors</a>
+    <a class="nav-sub" href="#invariants">Invariants</a>
+
+    <a class="nav-chapter" href="#ch3"><span class="num">03</span> OOP Mechanisms</a>
+    <a class="nav-sub" href="#encapsulation">Encapsulation</a>
+    <a class="nav-sub" href="#abstraction">Abstraction</a>
+    <a class="nav-sub" href="#inheritance">Inheritance</a>
+    <a class="nav-sub" href="#polymorphism">Polymorphism</a>
+
+    <a class="nav-chapter" href="#ch4"><span class="num">04</span> Object Relationships</a>
+    <a class="nav-sub" href="#composition">Composition</a>
+    <a class="nav-sub" href="#dto">DTO vs Domain Object</a>
+
+    <a class="nav-chapter" href="#ch5"><span class="num">05</span> UML</a>
+    <a class="nav-sub" href="#class-diagram">Class Diagram</a>
+    <a class="nav-sub" href="#sequence-diagram">Sequence Diagram</a>
+    <a class="nav-sub" href="#use-case">Use Case Diagram</a>
+
+    <a class="nav-chapter" href="#ch6"><span class="num">06</span> ERD</a>
+    <a class="nav-sub" href="#erd-components">Components</a>
+    <a class="nav-sub" href="#cardinality">Cardinality</a>
+    <a class="nav-sub" href="#participation">Participation</a>
+    <a class="nav-sub" href="#erd-notation">Notations</a>
+
+    <a class="nav-chapter" href="#ch7"><span class="num">07</span> Design Patterns</a>
+    <a class="nav-sub" href="#singleton">Singleton</a>
+    <a class="nav-sub" href="#factory">Factory</a>
+    <a class="nav-sub" href="#adapter">Adapter</a>
+    <a class="nav-sub" href="#composite">Composite</a>
+    <a class="nav-sub" href="#observer">Observer</a>
+    <a class="nav-sub" href="#strategy">Strategy</a>
+    <a class="nav-sub" href="#template">Template Method</a>
+
+    <a class="nav-chapter" href="#ch8"><span class="num">08</span> SOLID Principles</a>
+    <a class="nav-sub" href="#srp">SRP</a>
+    <a class="nav-sub" href="#ocp">OCP</a>
+    <a class="nav-sub" href="#lsp">LSP</a>
+    <a class="nav-sub" href="#isp">ISP</a>
+    <a class="nav-sub" href="#dip">DIP</a>
+
+    <a class="nav-chapter" href="#ch9"><span class="num">09</span> SDLC Models</a>
+    <a class="nav-sub" href="#waterfall">Waterfall</a>
+    <a class="nav-sub" href="#agile">Agile</a>
+    <a class="nav-sub" href="#cicd">CI/CD</a>
+
+    <a class="nav-chapter" href="#ch10"><span class="num">10</span> Testing</a>
+    <a class="nav-sub" href="#unit-testing">Unit Testing &amp; TDD</a>
+    <a class="nav-sub" href="#integration-testing">Integration Testing</a>
+    <a class="nav-sub" href="#e2e-testing">E2E Testing</a>
+    <a class="nav-sub" href="#testing-types">Other Types</a>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<main>
+
+<!-- ════════════════════════════════════════════
+     CH 1 — SOFTWARE ENGINEERING
+═════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="chapter-header">
+    <span class="chapter-num">01</span>
+    <h2 class="chapter-title">Software Engineering Fundamentals</h2>
+  </div>
+
+  <div class="section" id="quality-attrs">
+    <div class="section-title">Quality Attributes (The Three Pillars)</div>
+
+    <div class="topic">
+      <div class="topic-title">Reliability <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> The system continues to work correctly even in the face of adversity — hardware faults, software bugs, and human errors.</div>
+      <p>Reliability is measured by how well a system handles failures gracefully without data loss or service interruption.</p>
+      <div class="grid2">
+        <div class="mini-card">
+          <h4>Failure Sources</h4>
+          <ul class="points">
+            <li><strong>Hardware:</strong> disk crashes, RAM faults, power failures</li>
+            <li><strong>Software:</strong> bugs, runaway processes, cascading failures</li>
+            <li><strong>Human:</strong> config mistakes, bad deployments, accidental deletions</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>How to Achieve It</h4>
+          <ul class="points">
+            <li>Design for failure — assume every component will eventually fail</li>
+            <li>Use redundancy (multiple servers, multiple data centres)</li>
+            <li>Netflix Chaos Monkey: intentionally kills production servers</li>
+            <li>Automated monitoring &amp; recovery</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Real World:</strong> The 2024 CrowdStrike outage crashed 8.5 million Windows systems worldwide — a single faulty software update caused ~$5.4 billion in Fortune 500 losses. One reliability failure cascaded globally.</div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Scalability <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> As the system grows (data volume, traffic, or complexity), there should be reasonable ways of dealing with that growth.</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Type</th><th>Also Called</th><th>Approach</th><th>Pros</th><th>Cons</th></tr>
+          <tr><td><strong>Vertical Scaling</strong></td><td>Scale Up</td><td>Bigger, more powerful machine</td><td>Simple, no code changes</td><td>Expensive, has limits, single point of failure</td></tr>
+          <tr><td><strong>Horizontal Scaling</strong></td><td>Scale Out</td><td>Add more machines, distribute load</td><td>Indefinite scaling, fault tolerant, cost-effective</td><td>Complex distributed systems</td></tr>
+        </table>
+      </div>
+      <p><strong>Common Scalability Patterns:</strong> Load Balancing, Caching, Database Sharding, Async Processing, CDNs</p>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body"><strong>Pokémon GO (2016):</strong> Niantic expected normal launch traffic. Social media made it viral instantly. Millions of users flooded servers within hours — login, maps, and Gyms all became bottlenecks. Classic scalability failure.</div>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Maintainability <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> The ability of a system to be understood, modified, tested, and extended with low cost and low risk over time.</div>
+      <p>Most system design problems fail <em>after</em> launch, not at launch. Engineering effort is mostly spent on changes, not greenfield development.</p>
+      <ul class="points">
+        <li><strong>Separation of Concerns:</strong> Business logic ≠ infrastructure; API ≠ data storage</li>
+        <li><strong>Modularity:</strong> Components can change independently</li>
+        <li><strong>Simplicity:</strong> Clear &gt; clever; boring solutions age better</li>
+      </ul>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Durability <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> The ability of a system to preserve data correctly and permanently, even in the presence of crashes, power failures, network partitions, and process restarts.</div>
+      <p>Once a system acknowledges a write, it should <strong>never</strong> be lost. Critical for financial systems, user data, logs, events, and transactions.</p>
+    </div>
+  </div>
+
+  <div class="section" id="sdlc-overview">
+    <div class="section-title">Software Project Lifecycle</div>
+    <div class="topic">
+      <div class="topic-title">SDLC Phases <span class="badge badge-core">CORE</span></div>
+      <p>Software is built in stages. Skipping any phase creates bigger problems downstream.</p>
+      <div class="pattern-box"><span class="hl">Planning</span> → <span class="hl2">Requirements</span> → <span class="hl3">Design</span> → <span class="hl">Development</span> → <span class="hl2">Testing</span> → <span class="hl3">Deployment</span> → <span class="hl">Maintenance</span></div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Phase</th><th>Question Answered</th><th>Output</th></tr>
+          <tr><td><strong>Planning</strong></td><td>Is it worth building?</td><td>Project plan, risk assessment</td></tr>
+          <tr><td><strong>Requirements</strong></td><td>What to build?</td><td>SRS (Software Requirements Specification)</td></tr>
+          <tr><td><strong>Design</strong></td><td>How to build it?</td><td>Architecture diagrams, DB schemas, UML</td></tr>
+          <tr><td><strong>Development</strong></td><td>Building it</td><td>Source code</td></tr>
+          <tr><td><strong>Testing</strong></td><td>Does it work correctly?</td><td>Test reports, bug fixes</td></tr>
+          <tr><td><strong>Deployment</strong></td><td>How to release it?</td><td>Live system accessible to users</td></tr>
+          <tr><td><strong>Maintenance</strong></td><td>How to keep it running?</td><td>Patches, updates, performance improvements</td></tr>
+        </table>
+      </div>
+      <div class="callout danger">
+        <span class="callout-icon">🚨</span>
+        <div class="callout-body"><strong>Skipping phases costs you:</strong> No requirements → wrong product. No design → poor structure. No testing → bugs in production. No maintenance → dead product.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     CH 2 — OOP CORE CONCEPTS
+═════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="chapter-header">
+    <span class="chapter-num">02</span>
+    <h2 class="chapter-title">OOP Core Concepts</h2>
+  </div>
+
+  <div class="section" id="classes-objects">
+    <div class="section-title">Classes &amp; Objects</div>
+    <div class="topic">
+      <div class="topic-title">Class — The Blueprint <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> A class is a blueprint or template that defines the <em>attributes</em> (data/state) and <em>behaviours</em> (methods/functions) that objects of that type will have.</div>
+      <p>A class only occupies memory as a template — it is <strong>not</strong> a real thing until an object is created from it.</p>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Class Definition</div>
+        <pre><span class="kw">class</span> <span class="cl">Player</span> {
+  name: <span class="kw">string</span>;
+  health: <span class="num">number</span>;
+  currentWeapon: <span class="kw">string</span>;
+  isAlive: <span class="kw">boolean</span>;
+
+  <span class="fn">pickWeapon</span>(weapon: <span class="kw">string</span>): <span class="kw">void</span> { <span class="cm">/* ... */</span> }
+  <span class="fn">fire</span>(): <span class="kw">void</span>              { <span class="cm">/* ... */</span> }
+  <span class="fn">enterVehicle</span>(): <span class="kw">void</span>     { <span class="cm">/* ... */</span> }
+}</pre>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Object — The Real Instance <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> An object is a real instance of a class — it occupies memory, has its own state and identity, and can be interacted with.</div>
+      <p>Every object has three characteristics:</p>
+      <ul class="points">
+        <li><strong>State</strong> — what it knows (its attribute values)</li>
+        <li><strong>Behaviour</strong> — what it does (its methods)</li>
+        <li><strong>Identity</strong> — who it is (its unique reference in memory)</li>
+      </ul>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Creating Objects</div>
+        <pre><span class="kw">const</span> player1 = <span class="kw">new</span> <span class="cl">Player</span>(<span class="str">"Vikram"</span>, <span class="num">100</span>);
+<span class="kw">const</span> player2 = <span class="kw">new</span> <span class="cl">Player</span>(<span class="str">"Riya"</span>, <span class="num">100</span>);
+<span class="cm">// Both created from the same class, but are different objects</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="constructors">
+    <div class="section-title">Constructors</div>
+    <div class="topic">
+      <div class="topic-title">Constructor <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> A constructor is a special method that runs automatically when an object is created. Its job is to set the initial valid state of the object.</div>
+      <ul class="points">
+        <li>If you don't write one, TypeScript/JavaScript provides a default empty constructor: <code>constructor() {}</code></li>
+        <li>Constructors are the best place to enforce invariants at creation time</li>
+        <li>They ensure no object is ever created in an invalid state</li>
+      </ul>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Constructor with Validation</div>
+        <pre><span class="kw">class</span> <span class="cl">Car</span> {
+  model: <span class="kw">string</span>;
+  seatingCapacity: <span class="kw">number</span>;
+
+  <span class="fn">constructor</span>(model: <span class="kw">string</span>, seats: <span class="kw">number</span>) {
+    <span class="kw">if</span> (seats &lt;= <span class="num">0</span>) {
+      <span class="kw">throw new</span> <span class="cl">Error</span>(<span class="str">"Seating capacity must be &gt; 0"</span>);
+    }
+    <span class="kw">this</span>.model = model;
+    <span class="kw">this</span>.seatingCapacity = seats;
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="invariants">
+    <div class="section-title">Invariants</div>
+    <div class="topic">
+      <div class="topic-title">Invariants — Rules That Must Always Hold <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> An invariant is a condition about an object's state that must <em>always</em> be true — before and after every operation.</div>
+      <p>Example invariants:</p>
+      <ul class="points">
+        <li>A Car must always have at least 1 seat (<code>seatingCapacity &gt; 0</code>)</li>
+        <li>A Player's health must be between 0 and 100</li>
+        <li>A bank account balance must never go below the overdraft limit</li>
+      </ul>
+      <div class="callout tip">
+        <span class="callout-icon">✅</span>
+        <div class="callout-body"><strong>Why invariants matter:</strong> Consistent and predictable object behaviour. Fewer bugs through early error detection. Better maintainability with clear rules baked into the class.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     CH 3 — OOP MECHANISMS
+═════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="chapter-header">
+    <span class="chapter-num">03</span>
+    <h2 class="chapter-title">OOP Mechanisms</h2>
+  </div>
+
+  <div class="section" id="encapsulation">
+    <div class="section-title">Encapsulation</div>
+    <div class="topic">
+      <div class="topic-title">Encapsulation <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> Bundling data (attributes) and the methods that operate on that data within one class, while restricting direct external access to the data.</div>
+      <p><strong>The Rule:</strong> Mark instance variables <code>private</code>. Expose them through <code>public</code> getters and setters that enforce invariants.</p>
+      <div class="grid2">
+        <div class="mini-card">
+          <h4>❌ Without Encapsulation (Naked Object)</h4>
+          <div class="code-wrap" style="margin:8px 0">
+            <pre><span class="kw">class</span> <span class="cl">Dog</span> {
+  <span class="kw">public</span> size: <span class="kw">number</span>; <span class="cm">// exposed!</span>
+}
+<span class="kw">const</span> fido = <span class="kw">new</span> <span class="cl">Dog</span>();
+fido.size = <span class="num">-50</span>; <span class="cm">// valid code, fatal logic</span></pre>
+          </div>
+        </div>
+        <div class="mini-card">
+          <h4>✅ With Encapsulation</h4>
+          <div class="code-wrap" style="margin:8px 0">
+            <pre><span class="kw">class</span> <span class="cl">Dog</span> {
+  <span class="kw">private</span> _size: <span class="kw">number</span>;
+  <span class="kw">set</span> <span class="fn">size</span>(v: <span class="kw">number</span>) {
+    <span class="kw">if</span>(v &lt;= <span class="num">0</span>) <span class="kw">throw</span> <span class="cl">Error</span>();
+    <span class="kw">this</span>._size = v;
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+      <h4 style="color:var(--text);margin:16px 0 8px;font-size:14px;">Visibility Modifiers</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Modifier</th><th>Accessible From</th><th>UML Symbol</th></tr>
+          <tr><td><strong>public</strong></td><td>Anywhere</td><td><code>+</code></td></tr>
+          <tr><td><strong>private</strong></td><td>Only within the class</td><td><code>-</code></td></tr>
+          <tr><td><strong>protected</strong></td><td>Class and its subclasses</td><td><code>#</code></td></tr>
+          <tr><td><strong>package/default</strong></td><td>Classes in same package</td><td><code>~</code></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="abstraction">
+    <div class="section-title">Abstraction</div>
+    <div class="topic">
+      <div class="topic-title">Abstraction <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> Hiding complex implementation details and showing only the essential features. Focus on WHAT it does, not HOW it does it.</div>
+      <p>Like driving a car — you use the steering wheel and pedals (abstraction), without needing to know about fuel injection or the transmission.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Concept</th><th>Abstract Class</th><th>Interface</th></tr>
+          <tr><td><strong>Methods</strong></td><td>Can have both abstract and concrete</td><td>Only abstract (no implementation)</td></tr>
+          <tr><td><strong>Variables</strong></td><td>Can have instance variables</td><td>Cannot have instance variables</td></tr>
+          <tr><td><strong>Keyword</strong></td><td><code>abstract class</code></td><td><code>interface</code></td></tr>
+          <tr><td><strong>Extends/Implements</strong></td><td><code>extends</code></td><td><code>implements</code></td></tr>
+          <tr><td><strong>Use when</strong></td><td>Classes share common code/behaviour</td><td>Defining a contract for unrelated classes</td></tr>
+        </table>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Abstract Class</div>
+        <pre><span class="kw">abstract class</span> <span class="cl">Vehicle</span> {
+  <span class="kw">abstract</span> <span class="fn">getSpeed</span>(): <span class="kw">number</span>; <span class="cm">// must be implemented</span>
+  <span class="fn">describe</span>(): <span class="kw">void</span> { <span class="cm">// concrete (shared) method</span>
+    console.log(<span class="str">`Speed: ${this.getSpeed()}`</span>);
+  }
+}
+<span class="kw">class</span> <span class="cl">Car</span> <span class="kw">extends</span> <span class="cl">Vehicle</span> {
+  <span class="fn">getSpeed</span>(): <span class="kw">number</span> { <span class="kw">return</span> <span class="num">120</span>; }
+}</pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Interface (Contract)</div>
+        <pre><span class="kw">interface</span> <span class="cl">Payable</span> {
+  <span class="fn">processPayment</span>(amount: <span class="kw">number</span>): <span class="kw">void</span>;
+  <span class="fn">validatePayment</span>(): <span class="kw">boolean</span>;
+}
+<span class="kw">class</span> <span class="cl">CreditCard</span> <span class="kw">implements</span> <span class="cl">Payable</span> { <span class="cm">/* ... */</span> }
+<span class="kw">class</span> <span class="cl">UPI</span>        <span class="kw">implements</span> <span class="cl">Payable</span> { <span class="cm">/* ... */</span> }</pre>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Rule of Thumb:</strong> Need flexibility across unrelated classes → use <strong>Interface</strong>. Need shared code among related classes → use <strong>Abstract Class</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="inheritance">
+    <div class="section-title">Inheritance</div>
+    <div class="topic">
+      <div class="topic-title">Inheritance (IS-A) <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> Allows one class (child) to inherit the properties and methods of another class (parent). Represents an IS-A relationship.</div>
+      <p>Test: "A Dog IS-A Animal" → ✅ use inheritance. "A Dog IS-A Collar" → ❌ use composition.</p>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Inheritance</div>
+        <pre><span class="kw">class</span> <span class="cl">Animal</span> {
+  <span class="fn">eat</span>()  { console.log(<span class="str">"Eating..."</span>); }
+  <span class="fn">sleep</span>(){ console.log(<span class="str">"Sleeping..."</span>); }
+}
+<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+  <span class="fn">bark</span>() { console.log(<span class="str">"Woof!"</span>); } <span class="cm">// extra behaviour</span>
+}
+<span class="kw">const</span> d = <span class="kw">new</span> <span class="cl">Dog</span>();
+d.eat();  <span class="cm">// inherited from Animal</span>
+d.bark(); <span class="cm">// Dog's own method</span></pre>
+      </div>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body"><strong>Common Pitfalls:</strong> Deep hierarchies (changing base class wrecks everything). Over-generalisation (Penguin IS-A Bird but can't fly — broken promise). Favour Composition over Inheritance for flexibility.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="polymorphism">
+    <div class="section-title">Polymorphism</div>
+    <div class="topic">
+      <div class="topic-title">Polymorphism <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> Poly = Many, Morphism = Forms. The ability of objects to take multiple forms — one interface, multiple implementations.</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Type</th><th>Also Called</th><th>When Decided</th><th>Mechanism</th></tr>
+          <tr><td><strong>Compile-Time</strong></td><td>Method Overloading</td><td>At compilation</td><td>Same method name, different parameters</td></tr>
+          <tr><td><strong>Runtime</strong></td><td>Method Overriding</td><td>At execution</td><td>Child class overrides parent method</td></tr>
+        </table>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Method Overriding (Runtime Polymorphism)</div>
+        <pre><span class="kw">class</span> <span class="cl">Animal</span> {
+  <span class="fn">sound</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"..."</span>; }
+}
+<span class="kw">class</span> <span class="cl">Dog</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+  <span class="fn">sound</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"Woof"</span>; }  <span class="cm">// overrides</span>
+}
+<span class="kw">class</span> <span class="cl">Cat</span> <span class="kw">extends</span> <span class="cl">Animal</span> {
+  <span class="fn">sound</span>(): <span class="kw">string</span> { <span class="kw">return</span> <span class="str">"Meow"</span>; }  <span class="cm">// overrides</span>
+}
+<span class="kw">const</span> animals: <span class="cl">Animal</span>[] = [<span class="kw">new</span> <span class="cl">Dog</span>(), <span class="kw">new</span> <span class="cl">Cat</span>()];
+animals.forEach(a => console.log(a.<span class="fn">sound</span>())); <span class="cm">// Woof, Meow</span></pre>
+      </div>
+      <div class="tags">
+        <span class="tag">Code Reusability</span>
+        <span class="tag">Flexibility</span>
+        <span class="tag">Maintainability</span>
+        <span class="tag">Cleaner Code</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     CH 4 — OBJECT RELATIONSHIPS
+═════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="chapter-header">
+    <span class="chapter-num">04</span>
+    <h2 class="chapter-title">Object Relationships &amp; Design Concepts</h2>
+  </div>
+
+  <div class="section" id="composition">
+    <div class="section-title">Composition vs Inheritance</div>
+    <div class="topic">
+      <div class="topic-title">Composition (HAS-A) <span class="badge badge-core">CORE</span></div>
+      <div class="def"><strong>Definition:</strong> A class contains or uses another class as a part. "Dog HAS-A Tail" — the Dog class holds a reference to a Tail object. It does not become one.</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Inheritance (IS-A)</th><th>Composition (HAS-A)</th></tr>
+          <tr><td>"You are this thing"</td><td>"You have this thing"</td></tr>
+          <tr><td>Dog extends Animal</td><td>Dog has a Tail</td></tr>
+          <tr><td>Child gets parent DNA automatically</td><td>Object borrows another object's skills</td></tr>
+          <tr><td>One wrong change → many break</td><td>Change stays in one place</td></tr>
+          <tr><td>Feels powerful, gets risky</td><td>Feels boring, stays safe</td></tr>
+          <tr><td>Use when relationship is obvious IS-A</td><td>Use when relationship feels forced</td></tr>
+        </table>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Design Rule:</strong> Favour composition over inheritance for flexibility and safer design. "Has-a" is usually the better choice when in doubt.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="dto">
+    <div class="section-title">DTO vs Domain Object</div>
+    <div class="topic">
+      <div class="topic-title">DTO (Data Transfer Object) vs Domain Object <span class="badge badge-core">CORE</span></div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Aspect</th><th>DTO</th><th>Domain Object</th></tr>
+          <tr><td><strong>Purpose</strong></td><td>Carry data between layers (API → Service → DB)</td><td>Represent core business entity with rules</td></tr>
+          <tr><td><strong>Has Logic?</strong></td><td>No — data only (plain fields)</td><td>Yes — enforces invariants and business rules</td></tr>
+          <tr><td><strong>Example</strong></td><td><code>UserDTO { name: string; email: string }</code></td><td><code>User { private _balance; deposit(amt) { ... } }</code></td></tr>
+          <tr><td><strong>Visibility</strong></td><td>Public fields</td><td>Private fields + public methods</td></tr>
+        </table>
+      </div>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — DTO vs Domain Object</div>
+        <pre><span class="cm">// DTO — plain data bag</span>
+<span class="kw">interface</span> <span class="cl">UserDTO</span> {
+  name: <span class="kw">string</span>;
+  email: <span class="kw">string</span>;
+}
+
+<span class="cm">// Domain Object — enforces rules</span>
+<span class="kw">class</span> <span class="cl">BankAccount</span> {
+  <span class="kw">private</span> _balance: <span class="kw">number</span>;
+  <span class="fn">deposit</span>(amt: <span class="kw">number</span>) {
+    <span class="kw">if</span> (amt &lt;= <span class="num">0</span>) <span class="kw">throw</span> <span class="cl">Error</span>(<span class="str">"Amount must be positive"</span>);
+    <span class="kw">this</span>._balance += amt;
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     CH 5 — UML
+═════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="chapter-header">
+    <span class="chapter-num">05</span>
+    <h2 class="chapter-title">Unified Modelling Language (UML)</h2>
+  </div>
+
+  <div class="topic" style="margin-bottom:20px">
+    <div class="topic-title">What is UML? <span class="badge badge-diagram">DIAGRAM</span></div>
+    <div class="def"><strong>Definition:</strong> UML is a visual, technology-agnostic modelling language for software systems. Think of it as the blueprint language for software — like engineering blueprints for a building.</div>
+    <div class="grid2">
+      <div class="mini-card">
+        <h4>Structural Diagrams (WHAT)</h4>
+        <p>Focus on static components and relationships. "What parts make up the system?"</p>
+        <ul class="points"><li>Class Diagram</li><li>Component Diagram</li><li>Deployment Diagram</li></ul>
+      </div>
+      <div class="mini-card">
+        <h4>Behavioural Diagrams (HOW)</h4>
+        <p>Focus on dynamic processes and interactions. "What does the system do over time?"</p>
+        <ul class="points"><li>Sequence Diagram</li><li>Use Case Diagram</li><li>Activity Diagram</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="class-diagram">
+    <div class="section-title">Class Diagram</div>
+    <div class="topic">
+      <div class="topic-title">Class Notation &amp; Relationships <span class="badge badge-diagram">DIAGRAM</span></div>
+      <p>A class in UML is a box with three compartments: <strong>Class Name | Attributes | Methods</strong></p>
+      <div class="uml-box">┌──────────────────────────┐
+│       <span style="color:#00d4ff">BankAccount</span>          │  ← Class Name (bold, centred)
+├──────────────────────────┤
+│ - _balance: number       │  ← Attributes (- = private)
+│ # accountId: string      │    (# = protected)
+│ + owner: string          │    (+ = public)
+├──────────────────────────┤
+│ + deposit(amt): void     │  ← Methods with return types
+│ + withdraw(amt): boolean │
+│ + getBalance(): number   │
+└──────────────────────────┘</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Relationship</th><th>Symbol</th><th>Meaning</th><th>Example</th></tr>
+          <tr><td><strong>Association</strong></td><td>Solid line</td><td>General relationship between classes</td><td>Customer — Order</td></tr>
+          <tr><td><strong>Directed Association</strong></td><td>Solid line + arrow</td><td>One-way relationship</td><td>Customer → Order</td></tr>
+          <tr><td><strong>Aggregation</strong></td><td>Hollow diamond</td><td>Whole-part; part can exist without whole</td><td>Department ◇—— Employee</td></tr>
+          <tr><td><strong>Composition</strong></td><td>Filled diamond</td><td>Strong ownership; part cannot exist without whole</td><td>House ◆—— Room</td></tr>
+          <tr><td><strong>Generalization (Inheritance)</strong></td><td>Solid line + hollow arrow</td><td>IS-A relationship</td><td>Dog ——▷ Animal</td></tr>
+          <tr><td><strong>Realization (Interface)</strong></td><td>Dashed line + hollow arrow</td><td>Class implements interface</td><td>Dog - - -▷ Pettable</td></tr>
+          <tr><td><strong>Dependency</strong></td><td>Dashed arrow</td><td>Weak reliance; loosely coupled</td><td>OrderService - - → EmailService</td></tr>
+        </table>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">🎯</span>
+        <div class="callout-body"><strong>MCQ Answer:</strong> Realization = dashed line + hollow arrow (class implements interface). Composition = filled diamond. Inheritance/Generalization = solid line + hollow arrow.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="sequence-diagram">
+    <div class="section-title">Sequence Diagram</div>
+    <div class="topic">
+      <div class="topic-title">Sequence Diagram Components <span class="badge badge-diagram">DIAGRAM</span></div>
+      <div class="def"><strong>Purpose:</strong> Shows the <em>runtime story</em> — who calls whom, in what order. A class diagram shows STRUCTURE; a sequence diagram shows BEHAVIOUR over time.</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Component</th><th>Visual</th><th>Meaning</th></tr>
+          <tr><td><strong>Actor</strong></td><td>Stick figure</td><td>External user/system that starts the interaction</td></tr>
+          <tr><td><strong>Lifeline</strong></td><td>Vertical dashed line</td><td>Represents an object/component that exists during the interaction</td></tr>
+          <tr><td><strong>Activation Bar</strong></td><td>Thin rectangle on lifeline</td><td>Period when an object is actively executing logic</td></tr>
+          <tr><td><strong>Message (call)</strong></td><td>Solid arrow →</td><td>A method call sent from one lifeline to another</td></tr>
+          <tr><td><strong>Return</strong></td><td>Dashed arrow - - →</td><td>Response after a method finishes execution</td></tr>
+          <tr><td><strong>Alt Fragment</strong></td><td>Box labelled "alt"</td><td>Conditional logic (if/else) in the flow</td></tr>
+        </table>
+      </div>
+      <div class="uml-box">Customer      ATM           BankServer      CashDispenser
+   │             │                │                    │
+   │──insertCard()──►│                │                    │
+   │             │──verifyCard()──►│                    │
+   │             │◄──cardValid─ ─ ─│                    │
+   │◄──requestPIN()──│                │                    │
+   │──enterPIN()────►│                │                    │
+   │             │──verifyPIN()───►│                    │
+   │             │◄──pinOK─ ─ ─ ─ ─│                    │
+   │──enterAmount()─►│                │                    │
+   │             │──processTransaction()►│              │
+   │             │◄──approved─ ─ ─ ─│                    │
+   │             │──dispense()────────────────────────►│
+   │◄──cashReady───────────────────────────────────── ─│</div>
+    </div>
+  </div>
+
+  <div class="section" id="use-case">
+    <div class="section-title">Use Case Diagram</div>
+    <div class="topic">
+      <div class="topic-title">Use Case Diagram <span class="badge badge-diagram">DIAGRAM</span></div>
+      <div class="def"><strong>Definition:</strong> A behavioural diagram showing what the system does from the user's perspective. Captures functional requirements as interactions between actors and use cases.</div>
+      <ul class="points">
+        <li><strong>Actor:</strong> External entity (user, another system) that interacts with the system</li>
+        <li><strong>Use Case:</strong> A specific goal or task the actor can perform (shown as oval)</li>
+        <li><strong>System Boundary:</strong> Rectangle enclosing all use cases of the system</li>
+        <li><strong>Include:</strong> Dashed arrow — one use case always includes another (mandatory sub-task)</li>
+        <li><strong>Extend:</strong> Dashed arrow — one use case optionally extends another (conditional)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     CH 6 — ERD
+═════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="chapter-header">
+    <span class="chapter-num">06</span>
+    <h2 class="chapter-title">Entity Relationship Diagram (ERD)</h2>
+  </div>
+
+  <div class="topic" style="margin-bottom:20px">
+    <div class="topic-title">What is an ER Diagram? <span class="badge badge-diagram">DIAGRAM</span></div>
+    <div class="def"><strong>Definition:</strong> An ER Diagram is a conceptual data model representing the structure of data in a system — what data is stored and how it's related. It is a high-level model used before building the actual database.</div>
+  </div>
+
+  <div class="section" id="erd-components">
+    <div class="section-title">Core Components</div>
+    <div class="topic">
+      <div class="topic-title">Entities, Attributes, Relationships <span class="badge badge-diagram">DIAGRAM</span></div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Component</th><th>Chen Symbol</th><th>Definition</th><th>Example</th></tr>
+          <tr><td><strong>Entity</strong></td><td>Rectangle</td><td>A real-world object with distinct identity. Becomes a table in relational model.</td><td>Student, Course, Order</td></tr>
+          <tr><td><strong>Attribute</strong></td><td>Oval</td><td>A property that describes an entity</td><td>name, email, date_of_birth</td></tr>
+          <tr><td><strong>Relationship</strong></td><td>Diamond</td><td>Logical connection between entities (usually a verb)</td><td>Student Enrolls Course</td></tr>
+        </table>
+      </div>
+      <h4 style="color:var(--text);margin:16px 0 8px;font-size:14px;">Attribute Types</h4>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+          <tr><td><strong>Simple (Atomic)</strong></td><td>Cannot be further divided</td><td>age, salary</td></tr>
+          <tr><td><strong>Composite</strong></td><td>Can be broken into smaller parts</td><td>address → street, city, zip</td></tr>
+          <tr><td><strong>Multi-valued</strong></td><td>Can have multiple values</td><td>phone_numbers</td></tr>
+          <tr><td><strong>Derived</strong></td><td>Calculated from other attributes</td><td>age (from date_of_birth)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="cardinality">
+    <div class="section-title">Mapping Cardinalities</div>
+    <div class="topic">
+      <div class="topic-title">Cardinality Ratios <span class="badge badge-diagram">DIAGRAM</span></div>
+      <div class="def"><strong>Definition:</strong> Cardinality specifies how many entity instances can be associated with one instance of the other entity. It defines the <em>maximum</em> number of relationships allowed.</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Type</th><th>Notation</th><th>Example</th><th>Description</th></tr>
+          <tr><td><strong>One-to-One</strong></td><td>1:1</td><td>Person — Passport</td><td>One person has exactly one passport</td></tr>
+          <tr><td><strong>One-to-Many</strong></td><td>1:M</td><td>Customer — Orders</td><td>One customer can place many orders, but one order belongs to one customer</td></tr>
+          <tr><td><strong>Many-to-One</strong></td><td>M:1</td><td>Students — College</td><td>Many students in one college, but each student in one college</td></tr>
+          <tr><td><strong>Many-to-Many</strong></td><td>M:N</td><td>Student — Course</td><td>Students enroll in many courses; courses have many students</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="participation">
+    <div class="section-title">Participation Constraints</div>
+    <div class="topic">
+      <div class="topic-title">Total vs Partial Participation <span class="badge badge-diagram">DIAGRAM</span></div>
+      <div class="def"><strong>Definition:</strong> Participation constraints specify whether participation in a relationship is <em>mandatory</em> or <em>optional</em> for an entity. It defines the <em>minimum</em> participation.</div>
+      <div class="grid2">
+        <div class="mini-card">
+          <h4>Total Participation (Mandatory)</h4>
+          <p>Every entity instance <strong>must</strong> participate in the relationship.</p>
+          <p>Example: Every Loan MUST have a Customer.</p>
+          <p>Chen notation: Double line (═══)</p>
+        </div>
+        <div class="mini-card">
+          <h4>Partial Participation (Optional)</h4>
+          <p>An entity instance <strong>may or may not</strong> participate in the relationship.</p>
+          <p>Example: A Customer may or may not have a Loan.</p>
+          <p>Chen notation: Single line (───)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="erd-notation">
+    <div class="section-title">ERD Notations</div>
+    <div class="topic">
+      <div class="topic-title">Chen vs Crow's Foot Notation <span class="badge badge-diagram">DIAGRAM</span></div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Crow's Foot Symbol</th><th>Meaning</th></tr>
+          <tr><td><code>||</code></td><td>One and Only One</td></tr>
+          <tr><td><code>|O</code></td><td>Zero or One</td></tr>
+          <tr><td><code>|&lt;</code></td><td>One or Many</td></tr>
+          <tr><td><code>O&lt;</code></td><td>Zero or Many</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     CH 7 — DESIGN PATTERNS
+═════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="chapter-header">
+    <span class="chapter-num">07</span>
+    <h2 class="chapter-title">Design Patterns</h2>
+  </div>
+
+  <div class="topic" style="margin-bottom:20px">
+    <div class="topic-title">What Are Design Patterns? <span class="badge badge-pattern">PATTERN</span></div>
+    <div class="def"><strong>Definition:</strong> Design patterns are well-proven, reusable solutions to commonly occurring problems in software design. They are templates, not finished designs.</div>
+    <div class="pills">
+      <span class="pill a">Creational — How objects are created</span>
+      <span class="pill b">Structural — How objects are composed</span>
+      <span class="pill c">Behavioral — How objects communicate</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Creational Patterns</div>
+
+    <div class="topic" id="singleton">
+      <div class="topic-title">Singleton Pattern <span class="badge badge-pattern">CREATIONAL</span></div>
+      <div class="def"><strong>Problem:</strong> We need exactly one instance of a class, accessible globally throughout the application (e.g., logger, config, DB connection pool).</div>
+      <p><strong>Three Key Components:</strong></p>
+      <ul class="points">
+        <li><strong>Private Constructor</strong> — no one can use <code>new</code> to create instances from outside</li>
+        <li><strong>Static Field</strong> — holds the single instance, shared across all usage</li>
+        <li><strong>Static Access Method:</strong> <code>getInstance()</code> — creates on first call, returns existing instance on subsequent calls (lazy initialization)</li>
+      </ul>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Singleton</div>
+        <pre><span class="kw">class</span> <span class="cl">Logger</span> {
+  <span class="kw">private static</span> instance: <span class="cl">Logger</span>;
+  <span class="kw">private</span> <span class="fn">constructor</span>() {}  <span class="cm">// private — no external new</span>
+
+  <span class="kw">static</span> <span class="fn">getInstance</span>(): <span class="cl">Logger</span> {
+    <span class="kw">if</span> (!<span class="cl">Logger</span>.instance) {
+      <span class="cl">Logger</span>.instance = <span class="kw">new</span> <span class="cl">Logger</span>();
+    }
+    <span class="kw">return</span> <span class="cl">Logger</span>.instance;
+  }
+  <span class="fn">log</span>(msg: <span class="kw">string</span>) { console.log(msg); }
+}
+<span class="kw">const</span> a = <span class="cl">Logger</span>.<span class="fn">getInstance</span>();
+<span class="kw">const</span> b = <span class="cl">Logger</span>.<span class="fn">getInstance</span>();
+console.log(a === b); <span class="cm">// true — same instance</span></pre>
+      </div>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body"><strong>Pitfalls:</strong> Acts like a global variable (global state). Cannot mock/replace in unit tests — tests become interdependent. Often considered an anti-pattern by senior engineers.</div>
+      </div>
+    </div>
+
+    <div class="topic" id="factory">
+      <div class="topic-title">Factory Pattern <span class="badge badge-pattern">CREATIONAL</span></div>
+      <div class="def"><strong>Problem:</strong> Object creation logic becomes complex and scattered. We want to decouple clients from concrete classes and hide which class is actually instantiated.</div>
+      <p><strong>Structure:</strong> Abstraction/Interface → Concrete Products → Simple Factory</p>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Notification Factory</div>
+        <pre><span class="kw">interface</span> <span class="cl">Notification</span> { <span class="fn">send</span>(msg: <span class="kw">string</span>): <span class="kw">void</span>; }
+<span class="kw">class</span> <span class="cl">EmailNotification</span> <span class="kw">implements</span> <span class="cl">Notification</span> {
+  <span class="fn">send</span>(msg: <span class="kw">string</span>) { console.log(<span class="str">`Email: ${msg}`</span>); }
+}
+<span class="kw">class</span> <span class="cl">SMSNotification</span> <span class="kw">implements</span> <span class="cl">Notification</span> {
+  <span class="fn">send</span>(msg: <span class="kw">string</span>) { console.log(<span class="str">`SMS: ${msg}`</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">NotificationFactory</span> {
+  <span class="kw">static</span> <span class="fn">create</span>(type: <span class="kw">string</span>): <span class="cl">Notification</span> {
+    <span class="kw">if</span> (type === <span class="str">'email'</span>) <span class="kw">return new</span> <span class="cl">EmailNotification</span>();
+    <span class="kw">if</span> (type === <span class="str">'sms'</span>)   <span class="kw">return new</span> <span class="cl">SMSNotification</span>();
+    <span class="kw">throw new</span> <span class="cl">Error</span>(<span class="str">"Unknown type"</span>);
+  }
+}
+<span class="cm">// Client never knows which class was created</span>
+<span class="kw">const</span> n = <span class="cl">NotificationFactory</span>.<span class="fn">create</span>(<span class="str">'email'</span>);
+n.<span class="fn">send</span>(<span class="str">"Hello!"</span>);</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Structural Patterns</div>
+
+    <div class="topic" id="adapter">
+      <div class="topic-title">Adapter Pattern <span class="badge badge-pattern">STRUCTURAL</span></div>
+      <div class="def"><strong>Problem:</strong> Your code expects one interface, but a third-party library provides a different one. You cannot modify the third-party code.</div>
+      <p><strong>Core Principle:</strong> Don't change existing code — wrap it instead!</p>
+      <div class="pattern-box"><span class="hl">  Your System            Adapter               Third-Party</span>
+  PaymentProcessor  ───►  RazorpayAdapter  ───►  ThirdPartyPayment
+      pay(amount)              pay(amount)            makePayment(usd)
+                          [translates call]</div>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Adapter Pattern</div>
+        <pre><span class="cm">// Target Interface (what your system expects)</span>
+<span class="kw">interface</span> <span class="cl">PaymentProcessor</span> {
+  <span class="fn">pay</span>(amount: <span class="kw">number</span>): <span class="kw">void</span>;
+}
+<span class="cm">// Adaptee (third-party you can't change)</span>
+<span class="kw">class</span> <span class="cl">ThirdPartyPaymentService</span> {
+  <span class="fn">makePayment</span>(valueInDollars: <span class="kw">number</span>) { <span class="cm">/* razorpay logic */</span> }
+}
+<span class="cm">// Adapter — the translator</span>
+<span class="kw">class</span> <span class="cl">PaymentAdapter</span> <span class="kw">implements</span> <span class="cl">PaymentProcessor</span> {
+  <span class="kw">private</span> service = <span class="kw">new</span> <span class="cl">ThirdPartyPaymentService</span>();
+  <span class="fn">pay</span>(amount: <span class="kw">number</span>) {
+    <span class="kw">this</span>.service.<span class="fn">makePayment</span>(amount / <span class="num">83</span>); <span class="cm">// ₹ → $</span>
+  }
+}</pre>
+      </div>
+    </div>
+
+    <div class="topic" id="composite">
+      <div class="topic-title">Composite Pattern <span class="badge badge-pattern">STRUCTURAL</span></div>
+      <div class="def"><strong>Problem:</strong> You have tree-like structures (files + folders, org charts) and want to treat individual items and containers the same way.</div>
+      <p><strong>Core Principle:</strong> Treat part and whole uniformly. Client doesn't check "is this a file or folder?"</p>
+      <div class="pattern-box"><span class="hl">Component Interface</span> (FileSystemItem: getSize())
+      │
+      ├── <span class="hl2">Leaf</span> (File): has no children, returns own size
+      └── <span class="hl3">Composite</span> (Folder): holds children, returns sum of all children's sizes</div>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Composite Pattern</div>
+        <pre><span class="kw">interface</span> <span class="cl">FileSystemItem</span> {
+  <span class="fn">getSize</span>(): <span class="kw">number</span>;
+}
+<span class="kw">class</span> <span class="cl">File</span> <span class="kw">implements</span> <span class="cl">FileSystemItem</span> {
+  <span class="fn">constructor</span>(<span class="kw">private</span> size: <span class="kw">number</span>) {}
+  <span class="fn">getSize</span>() { <span class="kw">return this</span>.size; }  <span class="cm">// leaf: just own size</span>
+}
+<span class="kw">class</span> <span class="cl">Folder</span> <span class="kw">implements</span> <span class="cl">FileSystemItem</span> {
+  <span class="kw">private</span> children: <span class="cl">FileSystemItem</span>[] = [];
+  <span class="fn">add</span>(item: <span class="cl">FileSystemItem</span>) { <span class="kw">this</span>.children.push(item); }
+  <span class="fn">getSize</span>() { <span class="cm">// composite: sum of all children (recursive)</span>
+    <span class="kw">return this</span>.children.reduce((sum, c) => sum + c.<span class="fn">getSize</span>(), <span class="num">0</span>);
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Behavioral Patterns</div>
+
+    <div class="topic" id="observer">
+      <div class="topic-title">Observer Pattern <span class="badge badge-pattern">BEHAVIORAL</span></div>
+      <div class="def"><strong>Problem:</strong> When one object changes state, many other objects need to react automatically, without tight coupling between them.</div>
+      <p><strong>Analogy:</strong> WhatsApp broadcast — you send one message, everyone in the group receives it automatically.</p>
+      <div class="pattern-box"><span class="hl">Subject (Publisher)</span>            <span class="hl2">Observers (Subscribers)</span>
+  TemperatureSensor  ──notify()──►  DisplayObserver
+                                ──notify()──►  LoggerObserver
+                                ──notify()──►  AlertObserver</div>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Observer Pattern</div>
+        <pre><span class="kw">interface</span> <span class="cl">Observer</span> { <span class="fn">update</span>(data: <span class="kw">number</span>): <span class="kw">void</span>; }
+<span class="kw">interface</span> <span class="cl">Subject</span> {
+  <span class="fn">attach</span>(obs: <span class="cl">Observer</span>): <span class="kw">void</span>;
+  <span class="fn">detach</span>(obs: <span class="cl">Observer</span>): <span class="kw">void</span>;
+  <span class="fn">notify</span>(): <span class="kw">void</span>;
+}
+<span class="kw">class</span> <span class="cl">TemperatureSensor</span> <span class="kw">implements</span> <span class="cl">Subject</span> {
+  <span class="kw">private</span> observers: <span class="cl">Observer</span>[] = [];
+  <span class="kw">private</span> temp: <span class="kw">number</span> = <span class="num">0</span>;
+  <span class="fn">setTemperature</span>(t: <span class="kw">number</span>) { <span class="kw">this</span>.temp = t; <span class="kw">this</span>.<span class="fn">notify</span>(); }
+  <span class="fn">attach</span>(obs: <span class="cl">Observer</span>) { <span class="kw">this</span>.observers.push(obs); }
+  <span class="fn">detach</span>(obs: <span class="cl">Observer</span>) { <span class="cm">/* remove from array */</span> }
+  <span class="fn">notify</span>()  { <span class="kw">this</span>.observers.forEach(o => o.<span class="fn">update</span>(<span class="kw">this</span>.temp)); }
+}</pre>
+      </div>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body"><strong>Common Pitfalls:</strong> Memory leaks if observers are never detached. No guaranteed notification order. Performance issues with 10,000+ observers.</div>
+      </div>
+    </div>
+
+    <div class="topic" id="strategy">
+      <div class="topic-title">Strategy Pattern <span class="badge badge-pattern">BEHAVIORAL</span></div>
+      <div class="def"><strong>Definition:</strong> Defines a family of algorithms, encapsulates each one in a separate class, and makes them interchangeable at runtime. The algorithm varies independently from the clients that use it.</div>
+      <p><strong>Real-World:</strong> Google Maps — same app, different route algorithms (Car, Bike, Walking, Public Transport). You can switch modes anytime without changing the app itself.</p>
+      <div class="pattern-box"><span class="hl">Context (Checkout)</span>  HAS-A  <span class="hl2">Strategy Interface (PaymentMethod)</span>
+                                    │
+                    ┌───────────────┼───────────────┐
+             <span class="hl3">CreditCard</span>           <span class="hl3">UPI</span>           <span class="hl3">PayPal</span></div>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Strategy Pattern</div>
+        <pre><span class="kw">interface</span> <span class="cl">PaymentStrategy</span> { <span class="fn">pay</span>(amount: <span class="kw">number</span>): <span class="kw">void</span>; }
+
+<span class="kw">class</span> <span class="cl">CreditCardStrategy</span> <span class="kw">implements</span> <span class="cl">PaymentStrategy</span> {
+  <span class="fn">pay</span>(amount: <span class="kw">number</span>) { console.log(<span class="str">`Credit Card: ₹${amount}`</span>); }
+}
+<span class="kw">class</span> <span class="cl">UPIStrategy</span> <span class="kw">implements</span> <span class="cl">PaymentStrategy</span> {
+  <span class="fn">pay</span>(amount: <span class="kw">number</span>) { console.log(<span class="str">`UPI: ₹${amount}`</span>); }
+}
+
+<span class="kw">class</span> <span class="cl">Checkout</span> {
+  <span class="kw">private</span> strategy: <span class="cl">PaymentStrategy</span>;
+  <span class="fn">setPaymentMethod</span>(s: <span class="cl">PaymentStrategy</span>) { <span class="kw">this</span>.strategy = s; }
+  <span class="fn">processOrder</span>(amount: <span class="kw">number</span>) { <span class="kw">this</span>.strategy.<span class="fn">pay</span>(amount); }
+}
+<span class="cm">// Switch at runtime — Checkout class never changes!</span>
+<span class="kw">const</span> checkout = <span class="kw">new</span> <span class="cl">Checkout</span>();
+checkout.<span class="fn">setPaymentMethod</span>(<span class="kw">new</span> <span class="cl">UPIStrategy</span>());
+checkout.<span class="fn">processOrder</span>(<span class="num">1500</span>);</pre>
+      </div>
+    </div>
+
+    <div class="topic" id="template">
+      <div class="topic-title">Template Method Pattern <span class="badge badge-pattern">BEHAVIORAL</span></div>
+      <div class="def"><strong>Definition:</strong> Defines the skeleton of an algorithm in a base class, letting subclasses override specific steps without changing the algorithm's structure.</div>
+      <p><strong>Mechanism:</strong> Inheritance (IS-A) — the parent controls the flow; children fill in the blanks.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Aspect</th><th>Strategy Pattern</th><th>Template Method</th></tr>
+          <tr><td><strong>Mechanism</strong></td><td>Composition (HAS-A)</td><td>Inheritance (IS-A)</td></tr>
+          <tr><td><strong>Runtime Changes</strong></td><td>Possible — swap strategy object</td><td>Impossible — fixed at class definition</td></tr>
+          <tr><td><strong>Use Case</strong></td><td>Interchangeable algorithms</td><td>Fixed workflow with small variations</td></tr>
+          <tr><td><strong>Example</strong></td><td>Payment methods</td><td>Data processing pipeline, Report generation</td></tr>
+        </table>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Rule:</strong> Choose <strong>Strategy</strong> when you need to swap behaviour at runtime. Choose <strong>Template Method</strong> when you have a fixed process with customisable steps.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     CH 8 — SOLID
+═════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="chapter-header">
+    <span class="chapter-num">08</span>
+    <h2 class="chapter-title">SOLID Principles</h2>
+  </div>
+
+  <div class="topic" style="margin-bottom:20px">
+    <p>SOLID is a set of 5 core principles for clean OOP design. They are guidance, not strict rules. Think of them as a cheat sheet to prevent messy, fragile, and rigid code.</p>
+    <div class="pills">
+      <span class="pill a">S — Single Responsibility</span>
+      <span class="pill b">O — Open/Closed</span>
+      <span class="pill c">L — Liskov Substitution</span>
+      <span class="pill d">I — Interface Segregation</span>
+      <span class="pill e">D — Dependency Inversion</span>
+    </div>
+  </div>
+
+  <div class="topic" id="srp">
+    <div class="topic-title">S — Single Responsibility Principle (SRP) <span class="badge badge-principle">SOLID</span></div>
+    <div class="def"><strong>Definition:</strong> A class should have <em>one and only one reason to change</em>. Responsibility = the actor/stakeholder who would request the change.</div>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body"><strong>Common Misconception:</strong> SRP ≠ "one method". A class can have many methods but still have ONE reason to change (one owner/stakeholder).</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">SRP Violation → Fix</div>
+      <pre><span class="cm">// ❌ Violation: Student class handles data + reporting + DB</span>
+<span class="kw">class</span> <span class="cl">Student</span> {
+  name: <span class="kw">string</span>;
+  <span class="fn">generateReport</span>() { <span class="cm">/* ... */</span> }  <span class="cm">// UX Designer owns this</span>
+  <span class="fn">saveToDatabase</span>() { <span class="cm">/* ... */</span> }  <span class="cm">// DBA owns this</span>
+}
+<span class="cm">// ✅ Fixed: three focused classes</span>
+<span class="kw">class</span> <span class="cl">Student</span>           { name: <span class="kw">string</span>; }
+<span class="kw">class</span> <span class="cl">ReportGenerator</span>  { <span class="fn">generate</span>(s: <span class="cl">Student</span>) { <span class="cm">/* ... */</span> } }
+<span class="kw">class</span> <span class="cl">StudentRepository</span>{ <span class="fn">save</span>(s: <span class="cl">Student</span>)    { <span class="cm">/* ... */</span> } }</pre>
+    </div>
+  </div>
+
+  <div class="topic" id="ocp">
+    <div class="topic-title">O — Open-Closed Principle (OCP) <span class="badge badge-principle">SOLID</span></div>
+    <div class="def"><strong>Definition:</strong> Software entities should be <em>open for extension</em> but <em>closed for modification</em>. Add new features by writing new code, not by editing stable existing code.</div>
+    <p><strong>How:</strong> Identify the "seam" (variation point) once. Use Strategy Pattern, Interfaces, or Abstract Classes. Future features become new classes, not edits to old ones.</p>
+    <div class="code-wrap">
+      <div class="code-label">OCP Violation → Fix</div>
+      <pre><span class="cm">// ❌ Violation: Adding Senior discount requires editing this class</span>
+<span class="kw">class</span> <span class="cl">DiscountService</span> {
+  <span class="fn">getDiscount</span>(type: <span class="kw">string</span>) {
+    <span class="kw">if</span> (type === <span class="str">'student'</span>)  <span class="kw">return</span> <span class="num">0.1</span>;
+    <span class="kw">if</span> (type === <span class="str">'employee'</span>) <span class="kw">return</span> <span class="num">0.2</span>; <span class="cm">// keep adding ifs...</span>
+  }
+}
+<span class="cm">// ✅ Fixed: new discounts = new classes, service unchanged</span>
+<span class="kw">interface</span> <span class="cl">DiscountStrategy</span> { <span class="fn">getDiscount</span>(): <span class="kw">number</span>; }
+<span class="kw">class</span> <span class="cl">StudentDiscount</span>  <span class="kw">implements</span> <span class="cl">DiscountStrategy</span> { <span class="fn">getDiscount</span>() { <span class="kw">return</span> <span class="num">0.1</span>; } }
+<span class="kw">class</span> <span class="cl">SeniorDiscount</span>   <span class="kw">implements</span> <span class="cl">DiscountStrategy</span> { <span class="fn">getDiscount</span>() { <span class="kw">return</span> <span class="num">0.15</span>; } }
+<span class="kw">class</span> <span class="cl">DiscountService</span>  { <span class="fn">apply</span>(d: <span class="cl">DiscountStrategy</span>) { <span class="kw">return</span> d.<span class="fn">getDiscount</span>(); } }</pre>
+    </div>
+  </div>
+
+  <div class="topic" id="lsp">
+    <div class="topic-title">L — Liskov Substitution Principle (LSP) <span class="badge badge-principle">SOLID</span></div>
+    <div class="def"><strong>Definition:</strong> Subtypes must be substitutable for their base types without altering the correctness of the program. If code works with a parent class, it must also work with ANY child class — no surprises.</div>
+    <p><strong>LSP is about behavioural promises, not inheritance syntax.</strong></p>
+    <div class="code-wrap">
+      <div class="code-label">LSP Violation</div>
+      <pre><span class="kw">class</span> <span class="cl">Bird</span>    { <span class="fn">fly</span>() { console.log(<span class="str">"Flying"</span>); } }
+<span class="kw">class</span> <span class="cl">Ostrich</span> <span class="kw">extends</span> <span class="cl">Bird</span> {
+  <span class="fn">fly</span>() { <span class="kw">throw new</span> <span class="cl">Error</span>(<span class="str">"Ostriches can't fly!"</span>); }
+}
+<span class="cm">// ❌ Breaks LSP: Bird promises fly() works, Ostrich breaks the promise</span>
+<span class="cm">// ✅ Fix: Restructure hierarchy — FlyingBird and NonFlyingBird</span></pre>
+    </div>
+  </div>
+
+  <div class="topic" id="isp">
+    <div class="topic-title">I — Interface Segregation Principle (ISP) <span class="badge badge-principle">SOLID</span></div>
+    <div class="def"><strong>Definition:</strong> Clients should not be forced to depend on methods they do not use. Many small, focused interfaces are better than one large "fat" interface.</div>
+    <div class="code-wrap">
+      <div class="code-label">ISP Violation → Fix</div>
+      <pre><span class="cm">// ❌ Fat Interface — SimplePrinter forced to implement scan() and fax()</span>
+<span class="kw">interface</span> <span class="cl">Machine</span> { <span class="fn">print</span>(): <span class="kw">void</span>; <span class="fn">scan</span>(): <span class="kw">void</span>; <span class="fn">fax</span>(): <span class="kw">void</span>; }
+
+<span class="cm">// ✅ ISP Fix — split into focused interfaces</span>
+<span class="kw">interface</span> <span class="cl">Printable</span> { <span class="fn">print</span>(): <span class="kw">void</span>; }
+<span class="kw">interface</span> <span class="cl">Scannable</span> { <span class="fn">scan</span>(): <span class="kw">void</span>; }
+<span class="kw">interface</span> <span class="cl">Faxable</span>   { <span class="fn">fax</span>(): <span class="kw">void</span>; }
+<span class="kw">class</span> <span class="cl">SimplePrinter</span> <span class="kw">implements</span> <span class="cl">Printable</span>  { <span class="cm">/* only print */</span> }
+<span class="kw">class</span> <span class="cl">AllInOnePrinter</span> <span class="kw">implements</span> <span class="cl">Printable</span>, <span class="cl">Scannable</span>, <span class="cl">Faxable</span> {}</pre>
+    </div>
+  </div>
+
+  <div class="topic" id="dip">
+    <div class="topic-title">D — Dependency Inversion Principle (DIP) <span class="badge badge-principle">SOLID</span></div>
+    <div class="def"><strong>Definition:</strong> High-level modules should not depend on low-level modules. Both should depend on abstractions. Depend on WHAT you want to do, not HOW it is done.</div>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body"><strong>MCQ Answer:</strong> Constructor Injection (passing dependencies via constructor) is the most direct implementation of DIP — answer is C (DIP).</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">DIP Example</div>
+      <pre><span class="cm">// ❌ High-level depends on low-level concrete class</span>
+<span class="kw">class</span> <span class="cl">NotificationService</span> {
+  <span class="kw">private</span> emailSender = <span class="kw">new</span> <span class="cl">EmailSender</span>(); <span class="cm">// tightly coupled</span>
+}
+<span class="cm">// ✅ Both depend on abstraction</span>
+<span class="kw">interface</span> <span class="cl">MessageSender</span> { <span class="fn">send</span>(msg: <span class="kw">string</span>): <span class="kw">void</span>; }
+<span class="kw">class</span> <span class="cl">NotificationService</span> {
+  <span class="fn">constructor</span>(<span class="kw">private</span> sender: <span class="cl">MessageSender</span>) {} <span class="cm">// injected</span>
+  <span class="fn">notify</span>(msg: <span class="kw">string</span>) { <span class="kw">this</span>.sender.<span class="fn">send</span>(msg); }
+}
+<span class="cm">// Now can inject Email, SMS, or Slack — no changes to NotificationService</span></pre>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     CH 9 — SDLC MODELS
+═════════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="chapter-header">
+    <span class="chapter-num">09</span>
+    <h2 class="chapter-title">SDLC Models</h2>
+  </div>
+
+  <div class="topic" style="margin-bottom:20px">
+    <div class="topic-title">SDLC vs Process Model</div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>SDLC (The WHAT)</th><th>Process Model (The HOW)</th></tr>
+        <tr><td>The steps that must happen (Requirements, Design, Dev, Test, Deploy, Maintain)</td><td>The way teams execute those steps (Waterfall = Linear, Agile = Iterative)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section" id="waterfall">
+    <div class="section-title">Waterfall Model</div>
+    <div class="topic">
+      <div class="topic-title">Waterfall — Linear Sequential Model <span class="badge badge-core">SDLC</span></div>
+      <div class="def"><strong>Analogy:</strong> Building a house — design everything upfront (blueprints), lay the foundation, build walls. Changes are EXPENSIVE after the foundation is laid.</div>
+      <div class="pattern-box"><span class="hl">Requirements</span> ──► <span class="hl2">Design</span> ──► <span class="hl3">Development</span> ──► <span class="hl">Testing</span> ──► <span class="hl2">Deployment</span> ──► <span class="hl3">Maintenance</span>
+     (fixed)       (upfront)    (one shot)    (end only)   (one release)   (bugs only)</div>
+      <div class="grid2">
+        <div class="mini-card">
+          <h4>✅ When to Use</h4>
+          <ul class="points">
+            <li>Requirements are clear and fixed from the start</li>
+            <li>Changes are very unlikely during development</li>
+            <li>Documentation and approvals required at every stage</li>
+            <li>Large, critical, or highly regulated systems</li>
+          </ul>
+        </div>
+        <div class="mini-card">
+          <h4>Real Examples</h4>
+          <ul class="points">
+            <li>Defence systems (MIL-STD-498)</li>
+            <li>Core banking and payroll systems</li>
+            <li>Space programs (NASA Mars missions)</li>
+            <li>Large-scale enterprise infrastructure</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="agile">
+    <div class="section-title">Agile Model</div>
+    <div class="topic">
+      <div class="topic-title">Agile — Iterative &amp; Incremental <span class="badge badge-core">SDLC</span></div>
+      <div class="def"><strong>Analogy:</strong> Cooking a dish — make a simple version, taste it, adjust spices based on feedback, taste again. Continuous feedback and improvement.</div>
+      <div class="pattern-box">Sprint 1: <span class="hl">Build simple version</span> → Test → Feedback
+Sprint 2: <span class="hl2">Improve based on feedback</span> → Test → Feedback
+Sprint 3: <span class="hl3">Add more features</span> → Test → Feedback
+   ↑ Each sprint = 1–4 weeks, produces working software ↑</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Aspect</th><th>Waterfall</th><th>Agile</th></tr>
+          <tr><td><strong>Approach</strong></td><td>Sequential / Linear</td><td>Iterative / Cyclic</td></tr>
+          <tr><td><strong>Flexibility</strong></td><td>Low</td><td>High</td></tr>
+          <tr><td><strong>Feedback</strong></td><td>Late (at the end)</td><td>Continuous (every sprint)</td></tr>
+          <tr><td><strong>Timeline</strong></td><td>One final release</td><td>Multiple releases</td></tr>
+          <tr><td><strong>Best For</strong></td><td>Stable requirements</td><td>Changing requirements</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="cicd">
+    <div class="section-title">CI/CD Pipeline</div>
+    <div class="topic">
+      <div class="topic-title">Continuous Integration / Continuous Deployment <span class="badge badge-core">SDLC</span></div>
+      <div class="grid2">
+        <div class="mini-card">
+          <h4>CI — Continuous Integration</h4>
+          <p>Code is automatically tested every time a developer pushes. Catches errors early. No manual testing for routine checks. Fast feedback.</p>
+        </div>
+        <div class="mini-card">
+          <h4>CD — Continuous Deployment</h4>
+          <p>Code automatically deployed through stages (staging → production). Reduces manual work and errors. Code goes live faster.</p>
+        </div>
+      </div>
+      <div class="pattern-box">Developer Writes Code
+       ↓
+Push to Git/GitHub (version control)
+       ↓
+Code Review (senior dev checks quality)
+       ↓
+<span class="hl">Automated Tests Run (CI)</span> — catches bugs before merge
+       ↓
+Build (code is packaged)
+       ↓
+Staging Deployment (test on real servers)
+       ↓
+QA Testing
+       ↓
+<span class="hl2">Production Deployment (CD)</span> — goes live to users
+       ↓
+Monitor for errors + alerts</div>
+      <div class="callout info">
+        <span class="callout-icon">🏭</span>
+        <div class="callout-body"><strong>Real Companies:</strong> Amazon — code to production in MINUTES. Netflix — thousands of changes daily with instant rollback. Swiggy — deploys new features multiple times per day.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     CH 10 — TESTING
+═════════════════════════════════════════════ -->
+<div class="chapter" id="ch10">
+  <div class="chapter-header">
+    <span class="chapter-num">10</span>
+    <h2 class="chapter-title">Testing</h2>
+  </div>
+
+  <div class="topic" style="margin-bottom:20px">
+    <div class="topic-title">Why Testing? <span class="badge badge-test">TESTING</span></div>
+    <p>Software assumptions fail in real usage. Users behave unpredictably. Systems grow beyond developer control. Testing validates behaviour <em>before</em> release.</p>
+    <div class="grid2">
+      <div class="mini-card">
+        <h4>Cost of NOT Testing</h4>
+        <ul class="points">
+          <li>Bugs reach production</li>
+          <li>User trust is lost</li>
+          <li>Emergency fixes increase cost</li>
+          <li>Teams shift from building → firefighting</li>
+        </ul>
+      </div>
+      <div class="mini-card">
+        <h4>Testing = Engineering Discipline</h4>
+        <ul class="points">
+          <li>Not optional cleanup</li>
+          <li>Not only QA's responsibility</li>
+          <li>Core part of system reliability</li>
+          <li>Enables safe scaling</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="unit-testing">
+    <div class="section-title">Unit Testing &amp; TDD</div>
+    <div class="topic">
+      <div class="topic-title">Unit Testing <span class="badge badge-test">TESTING</span></div>
+      <div class="def"><strong>Definition:</strong> Tests the smallest testable logic in isolation — individual functions or methods. Validates expected behaviour. Fast and isolated.</div>
+      <p><strong>"Unit tests are like saving checkpoints — when you change something, they tell you what you accidentally broke."</strong></p>
+      <ul class="points">
+        <li>Catch logic bugs early</li>
+        <li>Prevent regression (old features breaking)</li>
+        <li>Enable confident refactoring</li>
+        <li>Improve code quality through testable design</li>
+      </ul>
+      <div class="code-wrap">
+        <div class="code-label">TypeScript — Jest Unit Test</div>
+        <pre><span class="cm">// Function to test</span>
+<span class="kw">function</span> <span class="fn">calculateFinalPrice</span>(price: <span class="kw">number</span>, discount: <span class="kw">number</span>) {
+  <span class="kw">if</span> (discount &lt; <span class="num">0</span> || discount &gt; <span class="num">1</span>) <span class="kw">throw new</span> <span class="cl">Error</span>(<span class="str">"Invalid"</span>);
+  <span class="kw">return</span> Math.max(<span class="num">0</span>, price * (<span class="num">1</span> - discount));
+}
+<span class="cm">// Jest tests</span>
+<span class="fn">describe</span>(<span class="str">'calculateFinalPrice'</span>, () => {
+  <span class="fn">it</span>(<span class="str">'applies 10% discount correctly'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">calculateFinalPrice</span>(<span class="num">1000</span>, <span class="num">0.1</span>)).<span class="fn">toBe</span>(<span class="num">900</span>);
+  });
+  <span class="fn">it</span>(<span class="str">'never returns negative price'</span>, () => {
+    <span class="fn">expect</span>(<span class="fn">calculateFinalPrice</span>(<span class="num">100</span>, <span class="num">1.5</span>)).<span class="fn">toThrow</span>();
+  });
+});</pre>
+      </div>
+    </div>
+
+    <div class="topic">
+      <div class="topic-title">Test-Driven Development (TDD) <span class="badge badge-test">TESTING</span></div>
+      <div class="def"><strong>Definition:</strong> Write the test BEFORE writing the code. Forces clear requirements and improves design clarity. "TDD is deciding what 'correct' means before coding."</div>
+      <div class="pattern-box"><span class="hl">🔴 RED</span>   → Write a failing test (the feature doesn't exist yet)
+<span class="hl2">🟢 GREEN</span> → Write the minimum code to make the test pass
+<span class="hl3">🔵 REFACTOR</span> → Clean up the code while keeping tests green
+        Repeat for every small feature unit</div>
+    </div>
+  </div>
+
+  <div class="section" id="integration-testing">
+    <div class="section-title">Integration Testing</div>
+    <div class="topic">
+      <div class="topic-title">Integration Testing <span class="badge badge-test">TESTING</span></div>
+      <div class="def"><strong>Definition:</strong> Tests interactions between components — validates APIs, databases, and services working together correctly. Sits above unit tests in the testing pyramid.</div>
+      <p><strong>Why Integration Tests Fail:</strong> Incorrect data flow, API contract mismatch, environment differences, dependency issues.</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Aspect</th><th>Unit Testing</th><th>Integration Testing</th></tr>
+          <tr><td><strong>Focus</strong></td><td>Logic correctness of one function</td><td>Component collaboration (A calls B correctly)</td></tr>
+          <tr><td><strong>Isolation</strong></td><td>Fully isolated (mocks)</td><td>Real or near-real dependencies</td></tr>
+          <tr><td><strong>Speed</strong></td><td>Very fast (milliseconds)</td><td>Slower (seconds)</td></tr>
+          <tr><td><strong>Tools</strong></td><td>Jest, Mocha, JUnit, pytest</td><td>Postman, Supertest</td></tr>
+        </table>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Key Insight:</strong> Unit tests and integration tests are complementary — one cannot replace the other. Both are required for system stability.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="e2e-testing">
+    <div class="section-title">End-to-End (E2E) Testing</div>
+    <div class="topic">
+      <div class="topic-title">E2E Testing <span class="badge badge-test">TESTING</span></div>
+      <div class="def"><strong>Definition:</strong> Tests the system from the user's point of view — covering the entire flow from UI through backend to database and external services.</div>
+      <ul class="points">
+        <li><strong>What it verifies:</strong> User can complete a task start to end; all services work together; correct data is saved; user sees the expected result</li>
+        <li><strong>What it catches that others don't:</strong> Broken user flows, configuration mistakes, deployment issues, missing service connections</li>
+        <li><strong>Why it's expensive:</strong> Involves real systems, requires databases + servers + UI rendering, failures are harder to trace</li>
+      </ul>
+      <div class="callout warn">
+        <span class="callout-icon">⚖️</span>
+        <div class="callout-body"><strong>Testing Pyramid:</strong> Many Unit Tests (fast, cheap) → Fewer Integration Tests → Very Few E2E Tests (slow, expensive). Don't invert the pyramid.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="testing-types">
+    <div class="section-title">Other Types of Testing</div>
+    <div class="topic">
+      <div class="topic-title">Testing Classification Overview <span class="badge badge-test">TESTING</span></div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Category</th><th>Type</th><th>Description</th></tr>
+          <tr><td rowspan="2"><strong>By Knowledge</strong></td><td><strong>Black Box</strong></td><td>Tester has NO knowledge of internal code. Tests from user's perspective only (inputs → outputs).</td></tr>
+          <tr><td><strong>White Box</strong></td><td>Tester has FULL knowledge of internal code. Tests specific code paths, branches, and logic.</td></tr>
+          <tr><td><strong>By Knowledge</strong></td><td><strong>Grey Box</strong></td><td>Partial knowledge. Combines both approaches for API and integration testing.</td></tr>
+          <tr><td rowspan="2"><strong>By Execution</strong></td><td><strong>Manual Testing</strong></td><td>Human tester executes test cases manually. Good for exploratory/UX testing.</td></tr>
+          <tr><td><strong>Automated Testing</strong></td><td>Scripts run tests automatically (CI/CD). Repeatable, fast, scales well.</td></tr>
+          <tr><td rowspan="2"><strong>By Functionality</strong></td><td><strong>Functional Testing</strong></td><td>Does the system do what it's supposed to do? (Login works, checkout works)</td></tr>
+          <tr><td><strong>Non-Functional Testing</strong></td><td>How well does it do it? Includes performance, load, security, usability testing.</td></tr>
+          <tr><td><strong>By User</strong></td><td><strong>Acceptance Testing (UAT)</strong></td><td>End users or clients verify the system meets their requirements before go-live.</td></tr>
+        </table>
+      </div>
+      <h4 style="color:var(--text);margin:16px 0 8px;font-size:14px;">Popular Testing Tools</h4>
+      <div class="pills">
+        <span class="pill a">Jest (JS Unit)</span>
+        <span class="pill b">Mocha/Chai (JS)</span>
+        <span class="pill c">JUnit (Java)</span>
+        <span class="pill d">pytest (Python)</span>
+        <span class="pill e">Cypress (E2E)</span>
+        <span class="pill a">Postman (API)</span>
+        <span class="pill b">GitHub Actions (CI)</span>
+        <span class="pill c">Jenkins (CI/CD)</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<a href="#" class="progress-ring" title="Back to top">↑</a>
+
+<script>
+// Highlight active nav link on scroll
+const chapters = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('.nav-chapter, .nav-sub');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -75% 0px' });
+chapters.forEach(el => observer.observe(el));
+
+// Search filter
+function filterNav(query) {
+  const q = query.toLowerCase();
+  document.querySelectorAll('.nav-chapter, .nav-sub').forEach(link => {
+    link.style.display = link.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+  document.querySelectorAll('.nav-section-label').forEach(label => {
+    label.style.display = q ? 'none' : '';
+  });
+}
+
+// Mobile sidebar toggle
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.querySelector('.mobile-sidebar-overlay').classList.toggle('open');
+}
+
+// Close sidebar when clicking a nav link on mobile
+document.querySelectorAll('.nav-chapter, .nav-sub').forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth <= 900) {
+      toggleSidebar();
+    }
+  });
+});
+</script>
+</body>
+</html>
